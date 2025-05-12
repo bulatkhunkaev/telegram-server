@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from aiogram import Bot
 import asyncio
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-BOT_TOKEN = '7947701818:AAHGMYNRtVSy3Sz5JIueNzO7TH_naPYXE4o'  # ← твой токен
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 CHANNEL = "@superbrandchannel"
 
 @app.route("/promo", methods=["POST"])
@@ -33,4 +34,5 @@ def promo():
         return jsonify({"promo_code": "⚠️ Ошибка на сервере. Попробуйте позже."})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
